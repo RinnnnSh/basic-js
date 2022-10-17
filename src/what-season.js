@@ -12,20 +12,17 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getSeason(date) {
-  // try {
-  //   fakeDate.toDateString()
-  // } catch (error) {
-  //   throw Error('Invalid date!')
-  // }
-  if (typeof date == 'undefined') {
-    return ('Unable to determine the time of year!')
+  if (typeof date === 'undefined') {
+    return 'Unable to determine the time of year!';
   };
-  if (!(date instanceof Date) || isNaN(date)) {
-     throw Error('Invalid date!')
+  try {
+    date.toDateString()
+  } catch (error) {
+    throw Error('Invalid date!')
   };
 
-  let seasons = ['winter', 'spring', 'summer', 'autumn'];
-  let month = date.getMonth();
+  const seasons = ['winter', 'spring', 'summer', 'autumn'];
+  const month = date.getMonth();
   let season;
   if (month <= 1 || month == 11) {
     season = seasons[0];
