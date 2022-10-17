@@ -20,71 +20,70 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-constructor(bool = true) {
-this.typeOfMachine = bool ? 'direct' : 'reverse';
-}
-encrypt(str, key) {
-if (typeof str == 'undefined' || typeof key == 'undefined') {
-throw Error('Invalid date!')
-};
+  constructor(bool = true) {
+    this.typeOfMachine = bool ? 'direct' : 'reverse';
+  }
 
-str = str.toUpperCase();
-key = key.toUpperCase()
-let a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let result = '';
+  encrypt(str, key) {
+    if (typeof str == 'undefined' || typeof key == 'undefined') {
+      throw Error('Incorrect arguments!')
+    };
 
-if (key.length < str.length) {
-key = key.repeat(Math.ceil(str.length/key.length))
-}
+    str = str.toUpperCase();
+    key = key.toUpperCase()
+    const a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = '';
 
-for (let i = 0, indexOfKey = 0; i < str.length; i++) {
-if (a.includes(str[i])) {
+    if (key.length < str.length) {
+      key = key.repeat(Math.ceil(str.length/key.length))
+    }
 
-let sumOfIndex = (a.indexOf(key[indexOfKey]) + a.indexOf(str[i]));
-let resIndex = sumOfIndex > a.length ? sumOfIndex - 26 : sumOfIndex;
+    for (let i = 0, indexOfKey = 0; i < str.length; i++) {
+      if (a.includes(str[i])) {
+        let sumOfIndex = (a.indexOf(key[indexOfKey]) + a.indexOf(str[i]));
+        let resIndex = sumOfIndex >= a.length ? sumOfIndex - 26 : sumOfIndex;
 
-result += a[resIndex];
-indexOfKey += 1;
-} else {
-result += str[i];
-}
-}
-if (this.typeOfMachine === 'reverse') {
-result = result.split('').reverse().join('');
-}
-return result
-}
+        result += a[resIndex];
+        indexOfKey += 1;
+      } else {
+        result += str[i];
+      }
+    }
+    if (this.typeOfMachine === 'reverse') {
+      result = result.split('').reverse().join('');
+    }
+    return result;
+  }
 
-decrypt(str, key) {
-if (typeof str == 'undefined' || typeof key == 'undefined') {
-throw Error('Incorrect arguments!')
-};
+  decrypt(str, key) {
+    if (typeof str == 'undefined' || typeof key == 'undefined') {
+      throw Error('Incorrect arguments!')
+    };
 
-let a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let result = '';
-str = str.toUpperCase();
-key = (key.length < str.length) ? key.repeat(Math.ceil(str.length/key.length)).toUpperCase() : key.toUpperCase();
+    const a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = '';
+    str = str.toUpperCase();
+    key = (key.length < str.length) ? key.repeat(Math.ceil(str.length/key.length)).toUpperCase() : key.toUpperCase();
 
 
-for (let i = 0, indexOfKey = 0; i < str.length; i++) {
-if (a.includes(str[i])) {
+    for (let i = 0, indexOfKey = 0; i < str.length; i++) {
+      if (a.includes(str[i])) {
+        let ind = a.indexOf(str[i]) - a.indexOf(key[indexOfKey]);
+        if (ind < 0) {
+          ind = ind + 26;
+        }
 
-let ind = a.indexOf(str[i]) - a.indexOf(key[indexOfKey]);
-if (ind < 0) {
-ind = ind + 26;
-}
-
-result += a[ind];
-indexOfKey += 1;
-} else {
-result += str[i];
-}
-}
-if (this.typeOfMachine === 'reverse') {
-result = result.split('').reverse().join('');
-}
-return result
-}
+        result += a[ind];
+        indexOfKey += 1;
+      } else {
+        result += str[i];
+      }
+    }
+    if (this.typeOfMachine === 'reverse') {
+      result = result.split('').reverse().join('');
+    }
+    return result;
+  }
 }
 
 module.exports = {
