@@ -12,6 +12,14 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getSeason(date) {
+  // try {
+  //   fakeDate.toDateString()
+  // } catch (error) {
+  //   throw Error('Invalid date!')
+  // }
+  if (typeof date == 'undefined') {
+    return ('Unable to determine the time of year!')
+  };
   if (!(date instanceof Date) || isNaN(date)) {
      throw Error('Invalid date!')
   };
